@@ -26,6 +26,10 @@ class StorageService {
   static const String _defaultHashtagsKey = 'default_hashtags';
   static const String _autoScheduleEnabledKey = 'auto_schedule_enabled';
   static const String _notificationsEnabledKey = 'notifications_enabled';
+  static const String _defaultPostsPerWeekKey = 'default_posts_per_week';
+  static const String _preferredTimeSlotKey = 'preferred_time_slot';
+  static const String _engagementRateThresholdKey = 'engagement_rate_threshold';
+  static const String _recentlyUsedHashtagsKey = 'recently_used_hashtags';
 
   // ==========================================
   // Contents (콘텐츠 목록) CRUD
@@ -447,6 +451,82 @@ class StorageService {
   }
 
   // ==========================================
+  // 추가 설정 (Additional Settings)
+  // ==========================================
+
+  /// 주간 기본 게시 횟수 저장
+  Future<void> saveDefaultPostsPerWeek(int count) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt(_defaultPostsPerWeekKey, count);
+    } catch (e) {
+      debugPrint('주간 게시 횟수 저장 오류: $e');
+    }
+  }
+
+  /// 주간 기본 게시 횟수 로드
+  Future<int> loadDefaultPostsPerWeek() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(_defaultPostsPerWeekKey) ?? 3;
+  }
+
+  /// 선호 게시 시간대 저장
+  Future<void> savePreferredTimeSlot(String timeSlot) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_preferredTimeSlotKey, timeSlot);
+    } catch (e) {
+      debugPrint('선호 시간대 저장 오류: $e');
+    }
+  }
+
+  /// 선호 게시 시간대 로드
+  Future<String?> loadPreferredTimeSlot() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_preferredTimeSlotKey);
+  }
+
+  /// 참여율 임계값 저장
+  Future<void> saveEngagementRateThreshold(double threshold) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setDouble(_engagementRateThresholdKey, threshold);
+    } catch (e) {
+      debugPrint('참여율 임계값 저장 오류: $e');
+    }
+  }
+
+  /// 참여율 임계값 로드
+  Future<double> loadEngagementRateThreshold() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getDouble(_engagementRateThresholdKey) ?? 3.0;
+  }
+
+  /// 최근 사용 해시태그 저장
+  Future<void> saveRecentlyUsedHashtags(List<String> hashtags) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_recentlyUsedHashtagsKey, jsonEncode(hashtags));
+    } catch (e) {
+      debugPrint('최근 사용 해시태그 저장 오류: $e');
+    }
+  }
+
+  /// 최근 사용 해시태그 로드
+  Future<List<String>> loadRecentlyUsedHashtags() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString(_recentlyUsedHashtagsKey);
+    if (jsonString == null) return [];
+    try {
+      final jsonList = jsonDecode(jsonString) as List<dynamic>;
+      return jsonList.map((e) => e as String).toList();
+    } catch (e) {
+      debugPrint('최근 사용 해시태그 로드 오류: $e');
+      return [];
+    }
+  }
+
+  // ==========================================
   // 전체 데이터 초기화
   // ==========================================
 
@@ -468,6 +548,10 @@ class StorageService {
       await prefs.remove(_defaultHashtagsKey);
       await prefs.remove(_autoScheduleEnabledKey);
       await prefs.remove(_notificationsEnabledKey);
+      await prefs.remove(_defaultPostsPerWeekKey);
+      await prefs.remove(_preferredTimeSlotKey);
+      await prefs.remove(_engagementRateThresholdKey);
+      await prefs.remove(_recentlyUsedHashtagsKey);
     } catch (e) {
       debugPrint('전체 데이터 초기화 오류: $e');
     }
