@@ -12,7 +12,8 @@ class ShellScreen extends StatelessWidget {
     if (location == '/schedule') return 1;
     if (location == '/calendar') return 2;
     if (location == '/stats') return 3;
-    if (location == '/settings') return 4;
+    if (location == '/analytics') return 4;
+    if (location == '/settings') return 5;
     return 0;
   }
 
@@ -37,6 +38,9 @@ class ShellScreen extends StatelessWidget {
               context.go('/stats');
               break;
             case 4:
+              context.go('/analytics');
+              break;
+            case 5:
               context.go('/settings');
               break;
           }
@@ -61,6 +65,11 @@ class ShellScreen extends StatelessWidget {
             icon: Icon(Icons.bar_chart_outlined),
             selectedIcon: Icon(Icons.bar_chart),
             label: '통계',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.analytics_outlined),
+            selectedIcon: Icon(Icons.analytics),
+            label: '분석',
           ),
           NavigationDestination(
             icon: Icon(Icons.settings_outlined),

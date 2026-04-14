@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'app.dart';
+import 'providers/analytics_provider.dart';
 import 'providers/category_provider.dart';
 import 'providers/content_provider.dart';
 import 'providers/schedule_provider.dart';
@@ -25,6 +26,7 @@ void main() async {
   final todoProvider = TodoProvider(storageService);
   final contentProvider = ContentProvider(storageService: storageService);
   final scheduleProvider = ScheduleProvider(storageService: storageService);
+  final analyticsProvider = AnalyticsProvider(storageService: storageService);
 
   // 비동기 데이터 로드
   await Future.wait([
@@ -33,6 +35,7 @@ void main() async {
     todoProvider.init(),
     contentProvider.init(),
     scheduleProvider.init(),
+    analyticsProvider.init(),
   ]);
 
   runApp(
@@ -43,6 +46,7 @@ void main() async {
         ChangeNotifierProvider.value(value: todoProvider),
         ChangeNotifierProvider.value(value: contentProvider),
         ChangeNotifierProvider.value(value: scheduleProvider),
+        ChangeNotifierProvider.value(value: analyticsProvider),
       ],
       child: const TodoApp(),
     ),

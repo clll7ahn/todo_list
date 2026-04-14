@@ -89,5 +89,22 @@ final GoRouter appRouter = GoRouter(
       path: '/schedule/list',
       builder: (context, state) => const ScheduleListScreen(),
     ),
+    GoRoute(
+      path: '/analytics/detail/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id']!;
+        return AnalyticsDetailScreen(recordId: id);
+      },
+    ),
+    GoRoute(
+      path: '/analytics/input',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, String>?;
+        return AnalyticsInputScreen(
+          contentId: extra?['contentId'],
+          recordId: extra?['recordId'],
+        );
+      },
+    ),
   ],
 );
