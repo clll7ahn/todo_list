@@ -9,9 +9,10 @@ class ShellScreen extends StatelessWidget {
 
   int _currentIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
-    if (location == '/calendar') return 1;
-    if (location == '/stats') return 2;
-    if (location == '/settings') return 3;
+    if (location == '/schedule') return 1;
+    if (location == '/calendar') return 2;
+    if (location == '/stats') return 3;
+    if (location == '/settings') return 4;
     return 0;
   }
 
@@ -27,12 +28,15 @@ class ShellScreen extends StatelessWidget {
               context.go('/');
               break;
             case 1:
-              context.go('/calendar');
+              context.go('/schedule');
               break;
             case 2:
-              context.go('/stats');
+              context.go('/calendar');
               break;
             case 3:
+              context.go('/stats');
+              break;
+            case 4:
               context.go('/settings');
               break;
           }
@@ -42,6 +46,11 @@ class ShellScreen extends StatelessWidget {
             icon: Icon(Icons.home_outlined),
             selectedIcon: Icon(Icons.home),
             label: '홈',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.event_note_outlined),
+            selectedIcon: Icon(Icons.event_note),
+            label: '스케줄',
           ),
           NavigationDestination(
             icon: Icon(Icons.calendar_month_outlined),

@@ -1,7 +1,13 @@
 import 'package:go_router/go_router.dart';
+import '../screens/analytics_dashboard_screen.dart';
+import '../screens/analytics_detail_screen.dart';
+import '../screens/analytics_input_screen.dart';
 import '../screens/calendar_screen.dart';
 import '../screens/category_screen.dart';
 import '../screens/home_screen.dart';
+import '../screens/schedule_calendar_screen.dart';
+import '../screens/schedule_form_screen.dart';
+import '../screens/schedule_list_screen.dart';
 import '../screens/settings_screen.dart';
 import '../screens/stats_screen.dart';
 import '../screens/todo_form_screen.dart';
@@ -22,6 +28,12 @@ final GoRouter appRouter = GoRouter(
           ),
         ),
         GoRoute(
+          path: '/schedule',
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: ScheduleCalendarScreen(),
+          ),
+        ),
+        GoRoute(
           path: '/calendar',
           pageBuilder: (context, state) => const NoTransitionPage(
             child: CalendarScreen(),
@@ -31,6 +43,12 @@ final GoRouter appRouter = GoRouter(
           path: '/stats',
           pageBuilder: (context, state) => const NoTransitionPage(
             child: StatsScreen(),
+          ),
+        ),
+        GoRoute(
+          path: '/analytics',
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: AnalyticsDashboardScreen(),
           ),
         ),
         GoRoute(
@@ -55,6 +73,21 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/categories',
       builder: (context, state) => const CategoryScreen(),
+    ),
+    GoRoute(
+      path: '/schedule/add',
+      builder: (context, state) => const ScheduleFormScreen(),
+    ),
+    GoRoute(
+      path: '/schedule/edit/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id']!;
+        return ScheduleFormScreen(scheduleId: id);
+      },
+    ),
+    GoRoute(
+      path: '/schedule/list',
+      builder: (context, state) => const ScheduleListScreen(),
     ),
   ],
 );
