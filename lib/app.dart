@@ -5,9 +5,9 @@ import 'config/routes.dart';
 import 'config/theme.dart';
 import 'providers/settings_provider.dart';
 
-/// 메인 앱 위젯
-class TodoApp extends StatelessWidget {
-  const TodoApp({super.key});
+/// InstaPlanner 메인 앱 위젯
+class InstaPlanner extends StatelessWidget {
+  const InstaPlanner({super.key});
 
   @override
   Widget build(BuildContext context) {
